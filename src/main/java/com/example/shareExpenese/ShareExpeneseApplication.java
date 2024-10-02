@@ -1,4 +1,4 @@
-package com.example.shareexpenese;
+package com.example.shareExpenese;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
