@@ -13,16 +13,29 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "expenese_group")
+@Table(name = "group_expenese")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     private String name;
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    // One Group can have many Users (members)
+    @ManyToMany
+    @JoinTable(
+            name = "group_members", // Name of the join table
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> members;
     private String defaultGroupCurrency;
+    // One Group can have many Expenses
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, targetEntity = Expense.class)
+    private List<Expense> expenses;
+
+
 
 
 }
