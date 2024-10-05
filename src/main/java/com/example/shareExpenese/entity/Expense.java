@@ -21,5 +21,4 @@ public class Expense {
     private String description;
     private Integer value;
     private UUID addedBy;
-
 }
