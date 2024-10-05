@@ -1,6 +1,7 @@
 package com.example.shareExpenese.service;
 
 import com.example.shareExpenese.common.ApiResponse;
+import com.example.shareExpenese.common.MessageConstants;
 import com.example.shareExpenese.entity.Group;
 import com.example.shareExpenese.entity.User;
 import com.example.shareExpenese.repository.GroupRepository;
@@ -19,15 +20,16 @@ public class GroupServiceImpl implements GroupService {
         try {
             Group updateGroup= groupRepository.save(group);
             if( group.getId()!=null){
-                LOG.info("Group Created");
-                return new ApiResponse<>(200, "Group Created", updateGroup);
+                LOG.info(MessageConstants.groupCreatedMessage);
+                return new ApiResponse<>(200, MessageConstants.groupCreatedMessage, updateGroup);
             }
             else {
-                LOG.info("Group Updated");
-                return new ApiResponse<>(200, "Group Updated", updateGroup);
+                LOG.info(MessageConstants.groupUpdateMessage);
+                return new ApiResponse<>(200, MessageConstants.groupUpdateMessage, updateGroup);
             }
 
         } catch (Exception e) {
+            LOG.error(MessageConstants.groupFailureMessage+e.getMessage());
             return new ApiResponse<>(400, e.getMessage());
         }
     }
