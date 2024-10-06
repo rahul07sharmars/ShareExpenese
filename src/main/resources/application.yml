@@ -20,6 +20,22 @@ springdoc:
   swagger-ui:
     path: /shareExpense
 
+cloud:
+  aws:
+    credentials:
+      access-key: AWS_ACCESS_KEY_ID
+      secret-key: AWS_SECRET_KEY
+    region:
+      static: AWS_REGION_KEY
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: AWS_S3_BUCKET_NAME
+
+
+
 #spring.application.name=ShareExpenese
 #server.port=8081
 ##whenever there is any update in entity, this will
