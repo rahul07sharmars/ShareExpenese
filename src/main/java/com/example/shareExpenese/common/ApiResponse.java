@@ -1,4 +1,5 @@
 package com.example.shareExpenese.common;
+import org.springframework.http.HttpStatus;
 
 public class ApiResponse<T> {
     private int status;
