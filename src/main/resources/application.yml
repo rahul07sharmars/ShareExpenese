@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: ShareExpenese
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/shareExpanse
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  devtools:
+    livereload:
+      enabled: true
+
+server:
+  port: 8081
+
+springdoc:
+  swagger-ui:
+    path: /shareExpense
+
+#spring.application.name=ShareExpenese
+#server.port=8081
+##whenever there is any update in entity, this will
+##update in database as well
+#spring.jpa.hibernate.ddl-auto=update
+#spring.datasource.url=jdbc:mysql://localhost:3306/shareExpanse
+#spring.datasource.username=root
+#spring.datasource.password=root
+##this will give error something so do'nt use this
+##com.mysql.jdbc.Driveri
+#spring.datasource.driver-class-name =com.mysql.cj.jdbc.Driver
+##will print sql query in log
+#springdoc.swagger-ui.path=/shareExpense
+#spring.devtools.livereload.enabled=true
+#
