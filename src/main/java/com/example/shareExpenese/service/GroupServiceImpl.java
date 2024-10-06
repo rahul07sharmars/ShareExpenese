@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.UUID;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -19,7 +20,7 @@ public class GroupServiceImpl implements GroupService {
     public ApiResponse<Group> upsertGroup(Group group) {
         try {
             Group updateGroup= groupRepository.save(group);
-            if( group.getId()!=null){
+            if( group.getId()==null){
                 LOG.info(MessageConstants.groupCreatedMessage);
                 return new ApiResponse<>(200, MessageConstants.groupCreatedMessage, updateGroup);
             }

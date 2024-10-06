@@ -23,7 +23,7 @@ public class GroupController {
     private static final Logger LOG = LoggerFactory.getLogger(GroupController.class);
     @PatchMapping("/upsert")
     private ResponseEntity<ApiResponse<Group>> upsertGroup(@RequestBody Group group) {
-        try{
+        try {
             ApiResponse<Group> apiResponse = groupService.upsertGroup(group);
             if (group.getId()==null){
                 LOG.info("Group Created");

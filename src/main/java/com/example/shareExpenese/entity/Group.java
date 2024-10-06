@@ -5,8 +5,9 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -17,11 +18,8 @@ import java.util.UUID;
 public class Group {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
+    private String id;
     private String name;
-
     // One Group can have many Users (members)
     @ManyToMany
     @JoinTable(
@@ -36,6 +34,13 @@ public class Group {
     private List<Expense> expenses;
 
 
+    @ManyToMany(mappedBy = "groups")
+    private Set<User> users = new LinkedHashSet<>();
 
-
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            id = UUID.randomUUID().toString();  // Generate a new UUID and convert it to String
+        }
+    }
 }
