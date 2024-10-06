@@ -28,6 +28,7 @@ public class ExpenseController {
             ApiResponse<Expense> apiResponse = expenseService.upsertExpense(expense);
             return ResponseUtils.createApiResponse(apiResponse.getData(), HttpStatus.OK, apiResponse.getMessage());
         } catch (JsonProcessingException e) {
+            LOG.error("Issue: "+ e.getMessage());
             throw new RuntimeException(e);
         }
 

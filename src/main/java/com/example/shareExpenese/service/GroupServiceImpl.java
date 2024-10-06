@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,16 +21,22 @@ public class GroupServiceImpl implements GroupService {
     private static final Logger LOG = LoggerFactory.getLogger(GroupServiceImpl.class);
     public ApiResponse<Group> upsertGroup(Group group) {
         try {
-            Group updateGroup= groupRepository.save(group);
-            if( group.getId()==null){
+            if (group.getId() != null) {
+                Optional<Group> optionalGroup = groupRepository.findById(group.getId());
+                Group updateGroup= groupRepository.save(group);
+                if (!optionalGroup.isPresent()) {
+                    LOG.info(MessageConstants.groupCreatedMessage);
+                    return new ApiResponse<>(200, MessageConstants.groupCreatedMessage, updateGroup);
+                } else {
+                    LOG.info(MessageConstants.groupUpdateMessage);
+                    return new ApiResponse<>(200, MessageConstants.groupUpdateMessage, updateGroup);
+                }
+            }
+            else {
+                Group updateGroup= groupRepository.save(group);
                 LOG.info(MessageConstants.groupCreatedMessage);
                 return new ApiResponse<>(200, MessageConstants.groupCreatedMessage, updateGroup);
             }
-            else {
-                LOG.info(MessageConstants.groupUpdateMessage);
-                return new ApiResponse<>(200, MessageConstants.groupUpdateMessage, updateGroup);
-            }
-
         } catch (Exception e) {
             LOG.error(MessageConstants.groupFailureMessage+e.getMessage());
             return new ApiResponse<>(400, e.getMessage());

@@ -23,13 +23,12 @@ public class Expense {
     private String description;
     private Integer value;
     private String addedBy;
+    private String profileImage;
     @OneToOne
     @JoinColumn(name = "group_id")
     private Group groupId;
-
     @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> payedBy = new ArrayList<>();
-
     @PrePersist
     public void prePersist() {
         if (id == null) {

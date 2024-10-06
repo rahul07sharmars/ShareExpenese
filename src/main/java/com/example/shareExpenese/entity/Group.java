@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "group_expenese")
+@Table(name = "splitgroups")
 public class Group {
 
     @Id
@@ -29,14 +29,12 @@ public class Group {
     )
     private List<User> members;
     private String defaultGroupCurrency;
+    private String profileImage;
     // One Group can have many Expenses
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, targetEntity = Expense.class)
     private List<Expense> expenses;
-
-
     @ManyToMany(mappedBy = "groups")
     private Set<User> users = new LinkedHashSet<>();
-
     @PrePersist
     public void prePersist() {
         if (id == null) {

@@ -24,7 +24,7 @@ public class User {
     private String emailAddress;
     private String mobileNumber;
     private String defaultCurrency;
-    @ToString.Exclude
+    private String profileImage;
     @ManyToMany
     @JoinTable(name = "user_groups",
             joinColumns = @JoinColumn(name = "user_id"),

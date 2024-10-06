@@ -22,18 +22,14 @@ public class GroupController {
     private GroupService groupService;
     private static final Logger LOG = LoggerFactory.getLogger(GroupController.class);
     @PatchMapping("/upsert")
-    private ResponseEntity<ApiResponse<Group>> upsertGroup(@RequestBody Group group) {
+    public ResponseEntity<ApiResponse<Group>> upsertGroup(@RequestBody Group group) {
+        System.out.println("usercreating functionmk");
         try {
             ApiResponse<Group> apiResponse = groupService.upsertGroup(group);
-            if (group.getId()==null){
-                LOG.info("Group Created");
-                return ResponseUtils.createApiResponse(apiResponse.getData(), HttpStatus.OK, "Group Created");
-            }
-            else {
-                LOG.info("Group Updated");
-                return ResponseUtils.createApiResponse(apiResponse.getData(), HttpStatus.OK, "Group Updated");
-            }
+            return ResponseUtils.createApiResponse(apiResponse.getData(), HttpStatus.OK, apiResponse.getMessage());
+
         } catch (JsonProcessingException e) {
+            LOG.error("Issue: "+ e.getMessage());
             throw new RuntimeException(e);
         }
     }
