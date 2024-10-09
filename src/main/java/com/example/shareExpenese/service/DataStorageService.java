@@ -27,38 +27,43 @@ public class DataStorageService {
     @Autowired
     private AmazonS3 s3Client;
 
-    public String uploadFile(MultipartFile file) {
+    public ApiResponse<String> uploadFile(MultipartFile file) {
         File fileObj = convertMultiPartFileToFile(file);
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         try {
             // Put object in the S3 bucket
             s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
             fileObj.delete(); // Clean up the local file after upload
-            return "File uploaded: " + fileName;
+            return new ApiResponse<>(200,"File uploaded: " + fileName, "File uploaded: " + fileName);
         } catch (Exception e) {
             LOG.error("Error occurred while uploading file: {}", fileName, e); // Log the error details with stack trace
-            return "File upload failed: " + e.getMessage();
+            return new ApiResponse<>(400,"File upload failed: " + e.getMessage());
         }
 //        return "File uploaded : " + fileName;
     }
 
 
-    public byte[] downloadFile(String fileName) {
+    public ApiResponse<byte[]> downloadFile(String fileName) {
         S3Object s3Object = s3Client.getObject(bucketName, fileName);
         S3ObjectInputStream inputStream = s3Object.getObjectContent();
         try {
             byte[] content = IOUtils.toByteArray(inputStream);
-            return content;
+            return new ApiResponse<>(200, "File Downloaded SuccessFull", content);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error occurred while downloading file: {}", fileName, e);
+            return new ApiResponse<>(400, "Error occurred while downloading file: {}"+e.getMessage());
         }
-        return null;
     }
 
 
-    public String deleteFile(String fileName) {
-        s3Client.deleteObject(bucketName, fileName);
-        return fileName + " removed ...";
+    public ApiResponse<String> deleteFile(String fileName) {
+        try {
+            s3Client.deleteObject(bucketName, fileName);
+            return new ApiResponse<>(200, "File Downloaded SuccessFull");
+        } catch (Exception e) {
+            LOG.error("Error occurred while deleting file: {}", fileName, e);
+            return new ApiResponse<>(400, "Error occurred while deleting file: {}"+e.getMessage());
+        }
     }
 
 
